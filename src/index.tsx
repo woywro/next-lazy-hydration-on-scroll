@@ -38,7 +38,6 @@ const hydrateClientSide = <P extends ComponentProps>(Component: ComponentType<P>
           setIsHydrated(true)
         }
       }, observerOptions)
-
       observer.observe(rootRef.current)
       return () => observer.disconnect()
     }
@@ -51,25 +50,37 @@ const hydrateClientSide = <P extends ComponentProps>(Component: ComponentType<P>
     }, [isHydrated])
 
     if (isHydrated) {
-      return <Component {...props} />
+      return (
+        <section>
+          <Component {...props} />
+        </section>
+      )
     }
-    return <div ref={rootRef} dangerouslySetInnerHTML={{ __html: '' }} suppressHydrationWarning />
+    return <section ref={rootRef} dangerouslySetInnerHTML={{ __html: '' }} suppressHydrationWarning />
   }
   return Hydration
 }
 
 const lazyHydrate = <P extends ComponentProps>(
   component: () => Promise<any>,
-  { LoadingComponent, rootMargin }: LazyHydrateHydrateOptions,
+  options?: LazyHydrateHydrateOptions,
 ): FC<P> => {
-  const Component = dynamic(component, {
+  const LoadingComponent = options?.LoadingComponent ?? undefined
+  const dynamicOptions = {
     ssr: true,
-    loading: LoadingComponent ? () => <LoadingComponent /> : undefined,
-  })
+    ...(!!LoadingComponent && {
+      loading: () => <LoadingComponent />,
+    }),
+  }
+  const Component = dynamic(component, dynamicOptions)
   const isServer = typeof window === 'undefined'
   return isServer
-    ? ({ ...props }) => <Component {...props} />
-    : hydrateClientSide(Component, { rootMargin: rootMargin || '0px 250px' })
+    ? ({ ...props }) => (
+        <section>
+          <Component {...props} />
+        </section>
+      )
+    : hydrateClientSide(Component, { rootMargin: options?.rootMargin || '0px 250px' })
 }
 
 export { lazyHydrate }
