@@ -72,4 +72,4 @@ const lazyHydrate = <P extends ComponentProps>(
     : hydrateClientSide(Component, { rootMargin: rootMargin || '0px 250px' })
 }
 
-export default lazyHydrate
+export { lazyHydrate }
