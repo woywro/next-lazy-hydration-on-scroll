@@ -6,3 +6,14 @@
 - **Progressive Hydration:** Hydrate components on-demand, reducing the initial rendering workload.
 - **Scroll-Based Activation:** Hydrate and render components based on scroll position.
 
+## Usage
+```
+import { lazyHydrate } from "next-lazy-hydration-on-scroll";
+
+const Component = lazyHydrate(
+  () => import("../components/Component"),
+  {
+    LoadingComponent: () => <div>Loading...</div>,
+  }
+);
+```
