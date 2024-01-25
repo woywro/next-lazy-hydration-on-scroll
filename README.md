@@ -6,6 +6,17 @@
 - **Progressive Hydration:** Hydrate components on-demand, reducing the initial rendering workload.
 - **Scroll-Based Activation:** Hydrate and render components based on scroll position.
 
+## Installation
+To install the package, use one of the following commands:
+
+```
+npm install next-lazy-hydration-on-scroll
+
+pnpm install next-lazy-hydration-on-scroll
+
+yarn add next-lazy-hydration-on-scroll
+```
+
 ## Usage
 ```
 import { lazyHydrate } from "next-lazy-hydration-on-scroll";
@@ -17,3 +28,5 @@ const Component = lazyHydrate(
   }
 );
 ```
+
+⚠️ It uses **next/dynamic** under the hood. Dynamic imports and code splitting in Next.js work on a file basis. Ensure individual components you intend to load separately are in distinct files. Otherwise, dynamic import won't work. 
