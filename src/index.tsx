@@ -66,13 +66,13 @@ const lazyHydrate = <P extends ComponentProps>(
   options?: LazyHydrateHydrateOptions,
 ): FC<P> => {
   const LoadingComponent = options?.LoadingComponent ?? undefined
-  const dynamicOptions = {
+
+  const Component = dynamic(component, {
     ssr: true,
     ...(!!LoadingComponent && {
       loading: () => <LoadingComponent />,
     }),
-  }
-  const Component = dynamic(component, dynamicOptions)
+  })
   const isServer = typeof window === 'undefined'
   return isServer
     ? ({ ...props }) => (
