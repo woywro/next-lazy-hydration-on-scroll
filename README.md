@@ -1,3 +1,5 @@
+![Alt Text](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/banner.png?raw=true 'banner')
+
 ![Alt Text](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif.gif?raw=true 'example')
 
 ## Description
