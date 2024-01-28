@@ -35,6 +35,13 @@ const Component = lazyHydrate(
   }
 );
 ```
+## How `next-lazy-hydration-on-scroll` Works?
+
+- **Server-Side Rendering**: Initially, pages are rendered server-side with static components.
+- **Dynamic Imports**: Components are set up for dynamic import, reducing initial load size.
+- **Client-Side Placeholders**: Non-interactive placeholders are rendered client-side initially.
+- **Scroll Detection**: Uses `IntersectionObserver` to detect when components enter the viewport.
+- **Conditional Hydration**: Visible placeholders are replaced with interactive components on-the-fly.
 
 ## Explaination and Demo
 
