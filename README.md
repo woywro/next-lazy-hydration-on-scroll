@@ -1,10 +1,9 @@
-![Alt Text](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/banner.png?raw=true 'banner')
-
-![Alt Text](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif.gif?raw=true 'example')
-
+![Banner image](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/banner.png?raw=true 'banner')
+___
 ## Description
-
 **next-lazy-hydration-on-scroll** is a lightweight library designed to optimize performance and improve user experience by lazy loading and hydrating components as the user scrolls through a webpage. This approach minimizes initial load time and reduces resource consumption, making it ideal for complex applications with numerous components.
+
+![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif.gif?raw=true 'example')
 
 ## Features
 
