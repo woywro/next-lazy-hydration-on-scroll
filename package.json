@@ -1,6 +1,6 @@
 {
   "name": "next-lazy-hydration-on-scroll",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -28,7 +28,7 @@
     "react",
     "nextjs"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "next": "^13.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
