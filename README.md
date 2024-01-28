@@ -36,6 +36,7 @@ const Component = lazyHydrate(
 );
 ```
 ## How `next-lazy-hydration-on-scroll` Works?
+It delays the hydration of pre-rendered HTML & splits the code into smaller chunks that are loaded on scroll.
 
 - **Server-Side Rendering**: Initially, pages are rendered server-side with static components.
 - **Dynamic Imports**: Components are set up for dynamic import, reducing initial load size.
