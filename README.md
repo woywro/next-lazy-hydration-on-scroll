@@ -44,7 +44,7 @@ It delays the hydration of pre-rendered HTML & splits js into smaller chunks tha
 - **Scroll Detection**: Uses `IntersectionObserver` to detect when components enter the viewport.
 - **Conditional Hydration**: Visible placeholders are replaced with interactive components on-the-fly.
 
-## Explaination and Demo
+## Explanation and Demo
 
 https://next-lazy-hydration-on-scroll.vercel.app/
 
