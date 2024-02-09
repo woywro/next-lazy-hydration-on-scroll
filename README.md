@@ -48,10 +48,4 @@ It delays the hydration of pre-rendered HTML & splits js into smaller chunks tha
 
 https://next-lazy-hydration-on-scroll.vercel.app/
 
-- **Component1** - Traditional Import: Included in the initial bundle, it loads and hydrates immediately with the page.
-
-- **Component2** - Next.js Dynamic Import: Loaded in a separate chunk using Next.js's next/dynamic. It hydrates after loading.
-
-- **Component3** - Code Splitting + Progressive Hydration: It is imported and then hydrated shortly after the component starts entering the screen.
-
 ⚠️ It uses **next/dynamic** under the hood. Dynamic imports and code splitting in Next.js work on a file basis. Ensure individual components you intend to load separately are in distinct files. Otherwise, dynamic import won't work.
