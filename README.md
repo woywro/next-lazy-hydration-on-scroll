@@ -1,15 +1,22 @@
-![Banner image](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/banner.png?raw=true 'banner')
-___
-## Description
-**next-lazy-hydration-on-scroll** is a lightweight library designed to optimize performance and improve user experience by lazy loading and hydrating components as the user scrolls through a webpage. This approach minimizes initial load time and reduces resource consumption, making it ideal for complex applications with numerous components.
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="./logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">next-lazy-hydration-on-scroll</h3>
+
+  <p align="center">
+   A lightweight library designed to optimize performance and improve user experience by lazy loading and hydrating components as the user scrolls through a webpage.
+    <br />
+    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+  </p>
+</div>
+
+## Motivation
+
+The biggest downside of hydration process lies in the complexity and extra overhead it adds to web applications. Even with dynamic imports using next/dynamic, if not conditionally rendered, the entire application is hydrated on the client side. This can lead to longer loading times and increased resource usage. For instance, if a page contains a list of items where each component includes some interactive features, the whole page is hydrated upfront rather than progressively as the user interacts with it, like scrolling.
 
 ![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif.gif?raw=true 'example')
-
-## Features
-
-- **Lazy Loading:** Dynamically load components only when they are about to enter the viewport.
-- **Progressive Hydration:** Hydrate components on-demand, reducing the initial rendering workload.
-- **Scroll-Based Activation:** Hydrate and render components based on scroll position.
 
 ## Installation
 
@@ -35,7 +42,9 @@ const Component = lazyHydrate(
   }
 );
 ```
+
 ## How `next-lazy-hydration-on-scroll` Works?
+
 It delays the hydration of pre-rendered HTML & splits js into smaller chunks that are loaded on scroll.
 
 - **Server-Side Rendering**: Initially, pages are rendered server-side with static components.

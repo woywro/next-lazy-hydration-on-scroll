@@ -10,14 +10,18 @@
   },
   "dependencies": {
     "next": "14.1.0",
+    "next-compose-plugins": "^2.2.1",
     "next-lazy-hydration-on-scroll": "latest",
+    "next-transpile-modules": "^10.0.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@types/node": "^20.11.9",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
     "typescript": "^5.3.3"

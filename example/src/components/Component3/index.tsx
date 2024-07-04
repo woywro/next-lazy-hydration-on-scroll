@@ -1,10 +1,12 @@
+import { Component } from '@/styles/Component'
+
 const Component3 = () => {
   console.log('Component3 hydrates')
   return (
-    <div className="component" style={{ background: '#45818e' }}>
+    <Component style={{ background: '#ff9a00' }}>
       <h1>Component 3</h1>
-      <p>dynamic import + progressive hydration on scroll</p>
-    </div>
+      <p>progressive hydration on scroll</p>
+    </Component>
   )
 }
 
