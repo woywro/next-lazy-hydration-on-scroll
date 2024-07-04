@@ -16,7 +16,7 @@
 
 The biggest downside of hydration process lies in the complexity and extra overhead it adds to web applications. Even with dynamic imports using next/dynamic, if not conditionally rendered, the entire application is hydrated on the client side. This can lead to longer loading times and increased resource usage. For example, if a page contains a list of items where each component includes some interactive features, the whole page is hydrated upfront rather than progressively as the user interacts with it, like scrolling.
 
-![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif.gif?raw=true 'example')
+![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif1.gif?raw=true 'example')
 
 ## Installation
 
