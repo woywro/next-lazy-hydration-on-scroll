@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="./logo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/logo.png?raw=true" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">next-lazy-hydration-on-scroll</h3>

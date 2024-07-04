@@ -5,7 +5,7 @@ const Component2 = () => {
   return (
     <Component style={{ background: '#bd00ff' }}>
       <h1>Component 2</h1>
-      <p>dynamic import</p>
+      <p>Dynamic Import</p>
     </Component>
   )
 }

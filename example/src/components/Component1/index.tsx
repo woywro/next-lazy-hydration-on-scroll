@@ -5,7 +5,7 @@ const Component1 = () => {
   return (
     <Component style={{ background: '#0078ff' }}>
       <h1>Component 1</h1>
-      <p>normal import</p>
+      <p>Static Import</p>
     </Component>
   )
 }
