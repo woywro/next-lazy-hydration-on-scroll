@@ -12,15 +12,15 @@
   </p>
 </div>
 
-## Motivation
+## 🌟 Motivation
 
-The biggest downside of hydration process lies in the complexity and extra overhead it adds to web applications. Even with dynamic imports using next/dynamic, if not conditionally rendered, the entire application is hydrated on the client side. This can lead to longer loading times and increased resource usage. For example, if a page contains a list of items where each component includes some interactive features, the whole page is hydrated upfront rather than progressively as the user interacts with it, like scrolling.
+Hydration can add complexity and overhead to web applications. Even with dynamic imports using next/dynamic, the entire application may be hydrated on the client side, leading to longer loading times and increased resource usage. For instance, a page with a list of items where each component includes interactive features will be fully hydrated upfront rather than progressively as the user scrolls.
 
 ![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif1.gif?raw=true 'example')
 
-## Installation
+## ⚙️ Installation
 
-To install the package, use one of the following commands:
+Install the package using one of the following commands:
 
 ```
 npm install next-lazy-hydration-on-scroll
@@ -30,7 +30,7 @@ pnpm install next-lazy-hydration-on-scroll
 yarn add next-lazy-hydration-on-scroll
 ```
 
-## Usage
+## 🚀 Usage
 
 ```
 import { lazyHydrate } from "next-lazy-hydration-on-scroll";
@@ -43,7 +43,7 @@ const Component = lazyHydrate(
 );
 ```
 
-## How `next-lazy-hydration-on-scroll` Works?
+## 🛠️ How next-lazy-hydration-on-scroll Works?
 
 It delays the hydration of pre-rendered HTML and splits js into smaller chunks that are loaded on scroll.
 
@@ -53,8 +53,6 @@ It delays the hydration of pre-rendered HTML and splits js into smaller chunks t
 - 👀 Scroll Detection: Uses IntersectionObserver to detect when components enter the viewport.
 - ⚡ Conditional Hydration: Visible placeholders are replaced with interactive components on-the-fly.
 
-## Explanation and Demo
+## ⚠️ Additional Info
 
-https://next-lazy-hydration-on-scroll.vercel.app/
-
-⚠️ It uses **next/dynamic** under the hood. Dynamic imports and code splitting in Next.js work on a file basis. Ensure individual components you intend to load separately are in distinct files. Otherwise, dynamic import won't work.
+This package uses **next/dynamic** under the hood. Code splitting in Next.js work on a file basis. Ensure individual components you intend to load separately are in distinct files. Otherwise, dynamic import won't work.
