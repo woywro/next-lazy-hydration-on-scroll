@@ -8,7 +8,7 @@
   <p align="center">
    Hydrate components as the user scrolls through the page.
     <br />
-    <a href="https://next-lazy-hydration-on-scroll-git-main-woywros-projects.vercel.app/">🚀 View Demo</a>
+    <a href="https://next-lazy-hydration-on-scroll.vercel.app/optimized">🚀 View Demo</a>
   </p>
 </div>
 
@@ -64,12 +64,19 @@ const Component = lazyHydrate(
 ## 🛠️ How next-lazy-hydration-on-scroll Works?
 
 It delays the hydration of pre-rendered HTML and splits js into smaller chunks that are loaded on scroll.
+Ó
 
 - 🌐 Server-Side Rendering: Initially, pages are rendered server-side with static components.
 - 📦 Dynamic Imports: Components are set up for dynamic import, reducing initial load size.
 - 🌀 Client-Side Placeholders: Non-interactive placeholders are rendered client-side initially.
 - 👀 Scroll Detection: Uses IntersectionObserver to detect when components enter the viewport.
 - ⚡ Conditional Hydration: Visible placeholders are replaced with interactive components on-the-fly.
+
+## Performance Impact
+
+1. [Optimized Version](https://next-lazy-hydration-on-scroll.vercel.app/optimized)
+
+2. [Unoptimized Version](https://next-lazy-hydration-on-scroll.vercel.app/unoptimized)
 
 ## ⚠️ Additional Info
 

@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>LAZY HYDRATION NOT OPTIMIZED</title>
+        <title>LAZY HYDRATION UNOPTIMIZED</title>
       </Head>
       <main className={`${inter.className}`}>
         {/* Component1 is statically imported */}
