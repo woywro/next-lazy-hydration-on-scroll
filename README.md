@@ -6,7 +6,7 @@
   <h3 align="center">next-lazy-hydration-on-scroll</h3>
 
   <p align="center">
-   Hydrate components as the user scrolls through the page.
+   Hydrate components dynamically as the user scrolls
     <br />
     <a href="https://next-lazy-hydration-on-scroll.vercel.app/optimized">🚀 View Demo</a>
   </p>
@@ -23,11 +23,11 @@ In short, hydration is key to combining the best of both worlds:
 - the speed of a statically generated website
 - the interactivity of a single-page application (SPA).
 
-### What is the problem with hydration then?
+### What is the Problem with Hydration?
 
-Hydration takes time. So the more components we have, the longer the hydration process will take. This means that the user might experience a delay before the page becomes fully interactive.
+Hydration process takes time. The more components we have, the longer the hydration process will take. This means that the user might experience a delay before the page becomes fully interactive.
 
-### What can be the solution?
+### What is the Solution?
 
 To optimize this, it's important to minimize the number of components rendered initially and consider techniques like code splitting to load components only when they are needed.
 However it's worth noting that even if you use **next/dynamic** for every component on the page they're still executed on initial page load (unless conditionally rendered).
@@ -72,7 +72,7 @@ It delays the hydration of pre-rendered HTML and splits js into smaller chunks t
 - 👀 Scroll Detection: Uses IntersectionObserver to detect when components enter the viewport.
 - ⚡ Conditional Hydration: Visible placeholders are replaced with interactive components on-the-fly.
 
-## Performance Impact
+## 🚀 Performance Impact
 
 Optimizing the hydration process significantly impacts Total Blocking Time (TBT) by reducing the amount of work on the main thread. This decrease in work load allows the main thread to remain more responsive, minimizing the time it spends blocked so the page becomes interactive faster.
 
