@@ -81,7 +81,7 @@ Optimizing the hydration process significantly impacts Total Blocking Time (TBT)
    ![Optimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/optimized.png?raw=true 'optimized performance')
 
 2. [Unoptimized Version](https://next-lazy-hydration-on-scroll.vercel.app/unoptimized)
-   (Component3 statically imported)
+   (Component3 is statically imported)
    ![Unoptimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/unoptimized.png?raw=true 'unoptimized performance')
 
 ## ⚠️ Additional Info
