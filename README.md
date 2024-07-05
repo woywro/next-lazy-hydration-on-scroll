@@ -77,9 +77,11 @@ It delays the hydration of pre-rendered HTML and splits js into smaller chunks t
 Optimizing the hydration process significantly impacts Total Blocking Time (TBT) by reducing the amount of work on the main thread. This decrease in work load allows the main thread to remain more responsive, minimizing the time it spends blocked so the page becomes interactive faster.
 
 1. [Optimized Version](https://next-lazy-hydration-on-scroll.vercel.app/optimized)
+   (Component3 is lazy loaded and hydrated on scroll)
    ![Optimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/optimized.png?raw=true 'optimized performance')
 
 2. [Unoptimized Version](https://next-lazy-hydration-on-scroll.vercel.app/unoptimized)
+   (Component3 statically imported)
    ![Unoptimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/unoptimized.png?raw=true 'unoptimized performance')
 
 ## ⚠️ Additional Info
