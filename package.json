@@ -1,6 +1,6 @@
 {
   "name": "next-lazy-hydration-on-scroll",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
