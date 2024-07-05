@@ -9,7 +9,7 @@ const Component3 = () => {
   useEffect(() => {
     console.log('Starting heavy computation...')
     let largeArray: number[] = []
-    for (let i = 0; i < 1e5; i++) {
+    for (let i = 0; i < 500000; i++) {
       largeArray.push(Math.random())
     }
     largeArray.sort((a, b) => a - b)
