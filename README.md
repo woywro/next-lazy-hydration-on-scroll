@@ -6,7 +6,7 @@
   <h3 align="center">next-lazy-hydration-on-scroll</h3>
 
   <p align="center">
-   A lightweight library designed to optimize performance and improve user experience by lazy loading and hydrating components as the user scrolls through a webpage.
+   Hydrate components as the user scrolls through the page.
     <br />
     <a href="https://next-lazy-hydration-on-scroll-git-main-woywros-projects.vercel.app/">🚀 View Demo</a>
   </p>
@@ -14,7 +14,25 @@
 
 ## 🌟 Motivation
 
-Hydration can add complexity and overhead to web applications. Even with dynamic imports using next/dynamic, the entire application may be hydrated on the client side, leading to longer loading times and increased resource usage. For instance, a page with a list of items where each component includes interactive features will be fully hydrated upfront rather than progressively as the user scrolls.
+Next.js, being a React framework, follows React's hydration process. In Next.js each page is pre-rendered into HTML on the server. This HTML is then sent to the browser, where it is displayed to the user almost immediately, providing a fast initial load time.
+
+Once the JavaScript associated with the page is downloaded and executed, React takes over in the browser, "rehydrates" the static content by attaching event listeners to the DOM, and makes it interactive. This means that any buttons will become clickable, forms submitable, and any client-side functionality defined in your React components will become active (for e.g. hooks like useEffect).
+
+In short, hydration is key to combining the best of both worlds:
+
+- the speed of a statically generated website
+- the interactivity of a single-page application (SPA).
+
+### What is the problem with hydration then?
+
+Hydration takes time. So the more components we have, the longer the hydration process will take. This means that the user might experience a delay before the page becomes fully interactive.
+
+### What can be the solution?
+
+To optimize this, it's important to minimize the number of components rendered initially and consider techniques like code splitting to load components only when they are needed.
+However it's worth noting that even if you use **next/dynamic** for every component on the page they're still executed on initial page load (unless conditionally rendered).
+
+If you are using Next.js with app directory you can use **streaming** which allows for selective hydration. However, if your page uses **pages** directory (which does not support streaming), you can consider suspending hydration manually for e.g. by **hydrating components on scroll**.
 
 ![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif1.gif?raw=true 'example')
 

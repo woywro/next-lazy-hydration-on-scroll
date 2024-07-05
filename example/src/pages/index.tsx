@@ -19,8 +19,11 @@ export default function Home() {
         <title>next-lazy-hydration-on-scroll-example</title>
       </Head>
       <main className={`${inter.className}`}>
+        {/* Component1 is statically imported */}
         <Component1 />
+        {/* Component2 is dynamically imported */}
         <Component2 />
+        {/* Component3 is lazy loaded and hydrated on scroll */}
         <Component3 />
       </main>
     </>
