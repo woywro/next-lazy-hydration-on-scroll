@@ -1,4 +1,4 @@
-import { Component } from '@/styles/Component'
+import { Component } from '@/styles/Component.styles'
 import { useEffect, useState } from 'react'
 
 const Component3 = () => {

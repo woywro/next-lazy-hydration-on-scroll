@@ -1,4 +1,4 @@
-import { Component } from '@/styles/Component'
+import { Component } from '@/styles/Component.styles'
 
 const Component2 = () => {
   console.log('Component2 hydrates')
