@@ -1,7 +1,7 @@
 {
   "name": "next-lazy-hydration-on-scroll",
-  "version": "1.0.8",
-  "description": "",
+  "version": "1.0.9",
+  "description": "Hydrate components dynamically as the user scrolls.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
