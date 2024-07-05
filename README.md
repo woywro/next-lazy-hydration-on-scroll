@@ -75,8 +75,10 @@ It delays the hydration of pre-rendered HTML and splits js into smaller chunks t
 ## Performance Impact
 
 1. [Optimized Version](https://next-lazy-hydration-on-scroll.vercel.app/optimized)
+   ![Optimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/optimized.png?raw=true 'optimized performance')
 
 2. [Unoptimized Version](https://next-lazy-hydration-on-scroll.vercel.app/unoptimized)
+   ![Unoptimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/unoprimized.png?raw=true 'unoptimized performance')
 
 ## ⚠️ Additional Info
 
