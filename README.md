@@ -30,9 +30,10 @@ Hydration process takes time. The more components we have, the longer the hydrat
 ### What is the Solution?
 
 To optimize this, it's important to minimize the number of components rendered initially and consider techniques like code splitting to load components only when they are needed.
-However it's worth noting that even if you use **next/dynamic** for every component on the page they're still executed on initial page load (unless conditionally rendered).
 
-If you are using Next.js with app directory you can use **streaming** which allows for selective hydration. However, if your page uses **pages** directory (which does not support streaming), you can consider suspending hydration manually for e.g. by **hydrating components on scroll**.
+**Note:** Even if you use **next/dynamic** to import every component on the page, they will still be executed on the initial page load unless they are conditionally rendered.
+
+If you are using Next.js with app directory you can use **streaming** which allows for selective hydration. However, if your app uses **pages** directory (which does not support streaming), you can consider suspending hydration manually for e.g. by **hydrating components on scroll**.
 
 ![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif1.gif?raw=true 'example')
 
