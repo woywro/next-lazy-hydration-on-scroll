@@ -8,7 +8,7 @@
   <p align="center">
    Hydrate components dynamically as the user scrolls
     <br />
-    <a href="https://next-lazy-hydration-on-scroll.vercel.app/optimized">🚀 View Demo</a>
+    <a href="https://next-lazy-hydration-on-scroll.vercel.app">🚀 View Demo</a>
   </p>
 </div>
 
