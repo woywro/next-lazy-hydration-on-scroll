@@ -5,3 +5,4 @@ coverage
 .DS_Store
 dist
 report.json
+.codegpt

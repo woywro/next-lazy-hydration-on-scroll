@@ -1,7 +1,7 @@
 {
   "name": "next-lazy-hydration-on-scroll-example",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "critters": "^0.0.25",
+    "lucide-react": "^0.469.0",
     "next": "14.1.0",
-    "next-compose-plugins": "^2.2.1",
     "next-lazy-hydration-on-scroll": "latest",
-    "next-transpile-modules": "^10.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "styled-components": "^6.1.11"
@@ -21,9 +21,11 @@
     "@types/node": "^20.11.9",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
-    "babel-plugin-styled-components": "^2.1.4",
+    "autoprefixer": "^10.4.14",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.1.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.0",
     "typescript": "^5.3.3"
   }
 }

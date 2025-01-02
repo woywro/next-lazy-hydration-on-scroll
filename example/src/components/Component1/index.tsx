@@ -1,13 +1,11 @@
-import { Component } from '@/styles/Component.styles'
+import BaseComponent from '../BaseComponent/BaseComponent'
 
-const Component1 = () => {
-  console.log('Component1 hydrates')
+export default function Component1() {
   return (
-    <Component style={{ background: '#0078ff' }}>
-      <h1>Component 1</h1>
-      <p>Static Import</p>
-    </Component>
+    <BaseComponent
+      color="text-teal-400"
+      title="Static Import (executed instantly)"
+      description="This component loads immediately with the page and is always interactive. Perfect for above-the-fold content that needs immediate interaction."
+    />
   )
 }
-
-export default Component1

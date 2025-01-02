@@ -1,8 +1,11 @@
-const withPlugins = require('next-compose-plugins')
-const withTM = require('next-transpile-modules')(['styled-components'])
-
-module.exports = withPlugins([withTM], {
-  webpack(config, options) {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack(config) {
     return config
   },
-})
+  experimental: {
+    optimizeCss: true, // enabling this will enable SSR for Tailwind
+  },
+}
+
+module.exports = nextConfig

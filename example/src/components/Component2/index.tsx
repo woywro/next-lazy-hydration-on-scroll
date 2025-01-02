@@ -1,13 +1,11 @@
-import { Component } from '@/styles/Component.styles'
+import BaseComponent from '../BaseComponent/BaseComponent'
 
-const Component2 = () => {
-  console.log('Component2 hydrates')
+export default function Component2() {
   return (
-    <Component style={{ background: '#bd00ff' }}>
-      <h1>Component 2</h1>
-      <p>Dynamic Import</p>
-    </Component>
+    <BaseComponent
+      color="text-purple-400"
+      title="Dynamic Import (next/dynamic)"
+      description="While dynamically imported, this component's JavaScript starts loading immediately after page load (not on-demand), contrary to common misconception. Dynamic imports only load conditionally when used with conditional rendering."
+    />
   )
 }
-
-export default Component2

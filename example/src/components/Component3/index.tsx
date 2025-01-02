@@ -1,35 +1,18 @@
-import { Component } from '@/styles/Component.styles'
-import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
+import BaseComponent from '../BaseComponent/BaseComponent'
 
-const Component3 = () => {
-  console.log('Component3 hydrates')
+// Create a lazy-loaded version of the component
+const LazyComponent = dynamic(() => Promise.resolve(BaseComponent), {
+  ssr: true, // Enable server-side rendering
+  loading: () => null, // Optional loading state
+})
 
-  const [data, setData] = useState<number[]>([])
-
-  useEffect(() => {
-    console.log('Starting heavy computation...')
-    let largeArray: number[] = []
-    for (let i = 0; i < 200000; i++) {
-      largeArray.push(Math.random())
-    }
-    largeArray.sort((a, b) => a - b)
-    setData(largeArray)
-    console.log('Heavy computation completed')
-  }, [])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setData((prevData) => prevData.map((num) => num * Math.random()))
-      console.log('State updated')
-    }, 100)
-    return () => clearInterval(interval)
-  }, [])
+export default function Component3() {
   return (
-    <Component style={{ background: '#ff9a00' }}>
-      <h1>Component 3</h1>
-      <p>Progressive Hydration on Scroll</p>
-    </Component>
+    <BaseComponent
+      color="text-yellow-400"
+      title="Prerendered + Executed on scroll"
+      description="This component is pre-rendered on the server and its JavaScript is only loaded when scrolled into view. Unlike Component2's immediate loading after page load, this truly loads on-demand using intersection observer."
+    />
   )
 }
-
-export default Component3
