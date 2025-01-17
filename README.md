@@ -1,90 +1,253 @@
+⚠️ **Pages Directory Only**  
+This package is designed for Next.js Pages Directory, where streaming isn't available. If you're using App Directory, use [built-in streaming](https://nextjs.org/learn/dashboard-app/streaming) for better results.
+
+---
+
 <div align="center">
-  <a href="https://next-lazy-hydration-on-scroll.vercel.app/optimized">
-    <img src="https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/logo.png?raw=true" alt="Logo" width="80" height="80">
+  <a href="https://next-lazy-hydration-on-scroll.wrotek.dev/">
+    <img src="https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/logo-hydration.png?raw=true" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">next-lazy-hydration-on-scroll</h3>
+  <h1 align="center">next-lazy-hydration-on-scroll</h1>
 
   <p align="center">
-   Hydrate components dynamically as the user scrolls
+    <strong>Supercharge your Next.js app performance ⚡️</strong>
     <br />
-    <a href="https://next-lazy-hydration-on-scroll.vercel.app">🚀 View Demo</a>
+    Load components only when users need them
+    <br />
+    <br />
+    ⚡️ Lower TBT • 📦 Smaller Bundle • 🚀 Improved Performance
+    <br />
+    <br />
+    <a href="https://next-lazy-hydration-on-scroll.wrotek.dev/">View Demo</a>
   </p>
 </div>
 
-## 🌟 Motivation
+## Quick Start
 
-Next.js, being a React framework, follows React's hydration process. In Next.js each page is pre-rendered into HTML on the server. This HTML is then sent to the browser, where it is displayed to the user almost immediately, providing a fast initial load time.
+### Installation
 
-Once the JavaScript associated with the page is downloaded and executed, React takes over in the browser, "rehydrates" the static content by attaching event listeners to the DOM, and makes it interactive. This means that any buttons will become clickable, forms submitable, and any client-side functionality defined in your React components will become active (for e.g. hooks like useEffect).
-
-In short, hydration is key to combining the best of both worlds:
-
-- the speed of a statically generated website
-- the interactivity of a single-page application (SPA).
-
-### What is the Problem with Hydration?
-
-Hydration process takes time. The more components we have, the longer the hydration process will take. This means that the user might experience a delay before the page becomes fully interactive.
-
-### What is the Solution?
-
-To optimize this, it's important to minimize the number of components rendered initially and consider techniques like code splitting to load components only when they are needed.
-
-**Note:** Even if you use **next/dynamic** to import every component on the page, they will still be executed on the initial page load unless they are conditionally rendered.
-
-If you are using Next.js with app directory you can use **streaming** which allows for selective hydration. However, if your app uses **pages** directory (which does not support streaming), you can consider suspending hydration manually for e.g. by **hydrating components on scroll**.
-
-![Example use](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/gif1.gif?raw=true 'example')
-
-## ⚙️ Installation
-
-Install the package using one of the following commands:
-
-```
+```bash
 npm install next-lazy-hydration-on-scroll
-
-pnpm install next-lazy-hydration-on-scroll
-
+# or
 yarn add next-lazy-hydration-on-scroll
+# or
+pnpm add next-lazy-hydration-on-scroll
 ```
 
-## 🚀 Usage
+### Basic Usage
 
+```tsx
+import { lazyHydrate } from 'next-lazy-hydration-on-scroll'
+
+// Wrap your component with lazyHydrate
+const LazyComponent = lazyHydrate(() => import('./components/HeavyComponent'), {
+  LoadingComponent: () => <div>Loading...</div>, // Optional
+})
+
+// Use it in your page
+export default function Page() {
+  return (
+    <div>
+      <header>Always hydrated</header>
+
+      {/* This will hydrate only when scrolled into view */}
+      <LazyComponent />
+
+      {/* You can wrap multiple components */}
+      <LazyComponent />
+      <LazyComponent />
+    </div>
+  )
+}
 ```
-import { lazyHydrate } from "next-lazy-hydration-on-scroll";
 
-const Component = lazyHydrate(
-  () => import("../components/Component"),
-  {
-    LoadingComponent: () => <div>Loading...</div>,
+## Understanding the Process
+
+### What is Hydration?
+
+When you visit a Next.js website:
+
+1. The server sends HTML that you can see immediately (like a static webpage)
+2. Then it sends JavaScript to make everything interactive:
+   - Makes buttons clickable
+   - Enables form submissions
+   - Activates React hooks (useEffect, useState, etc.)
+   - Sets up event listeners
+
+Let's look at how this package transforms the traditional hydration process:
+
+### The Traditional Approach
+
+By default, Next.js loads and hydrates all components at once, even those not visible on screen. This leads to several issues:
+
+- Slow down initial page load
+- Delay page interactivity
+- High memory usage during hydration
+
+The diagram below shows the blocking nature of traditional hydration:
+
+```mermaid
+graph TD
+    A[Load Page] --> B[Download All JS]
+    B --> C[Hydrate Everything]
+    C --> D[Page Interactive]
+    style A fill:#ddf1fd
+    style B fill:#ffd1d1
+    style C fill:#ffd1d1
+    style D fill:#d1f7c4
+```
+
+🔴 Red boxes indicate operations that delay interactivity  
+🟢 Green box shows when users can finally interact with the page
+
+### The Solution ⚡️
+
+This package breaks down the hydration process into stages:
+
+1. Shows static content instantly
+2. Detects when you scroll to components
+3. Loads and hydrates components only when needed
+4. Keeps your page fast and efficient
+
+```mermaid
+graph TD
+    A[Static HTML] --> B[Scroll Detection]
+    B --> C[Load Component JS]
+    C --> D[Hydrate Component]
+    D --> E[Interactive Component]
+
+    style A fill:#d1f7c4
+    style B fill:#fff3c4
+    style C fill:#ffd1d1
+    style D fill:#ffd1d1
+    style E fill:#d1f7c4
+
+    classDef note fill:#f9f,stroke:#333,stroke-width:2px;
+```
+
+This approach provides many (some not obvious) benefits:
+
+- Reduces Total Blocking Time (TBT) by splitting hydration work
+- Reduces initial JavaScript bundle size
+- Components with data fetching (useEffect, SWR, React Query) only trigger requests when hydrated
+
+## Performance Impact 📊
+
+The key improvement is in Total Blocking Time (TBT), which measures how long the main thread is blocked, preventing user interactions. By hydrating components gradually:
+
+1. **Initial Load:**
+
+   - Only essential components are hydrated
+   - Main thread stays responsive
+   - Users can interact with visible content faster
+
+2. **Resource Usage:**
+
+   - JavaScript is parsed and executed in smaller chunks
+   - Memory usage stays lower
+   - Network requests are distributed over time
+
+3. **Data Fetching:**
+   - Components that fetch data only do so when hydrated
+   - Saves bandwidth for unseen components
+
+<div align="center">
+  <table>
+    <tr>
+      <th>With Lazy Hydration ✨</th>
+      <th>Without Lazy Hydration</th>
+    </tr>
+    <tr>
+      <td>
+        <img src="optimized.png" alt="Optimized" width="400"/>
+      </td>
+      <td>
+        <img src="unoptimized.png" alt="Unoptimized" width="400"/>
+      </td>
+    </tr>
+    <tr>
+      <td>✓ Faster Time to Interactive</td>
+      <td>× Longer Loading Times</td>
+    </tr>
+    <tr>
+      <td>✓ Lower Memory Usage</td>
+      <td>× Higher Memory Usage</td>
+    </tr>
+    <tr>
+      <td>✓ Better User Experience</td>
+      <td>× Potential UI Freezes</td>
+    </tr>
+  </table>
+</div>
+
+## Implementation Notes ⚙️
+
+### File Structure Requirements
+
+- Keep components in separate files
+- **Avoid barrel files** (index.ts that re-exports components):
+
+  ```ts
+  // ❌ Don't use barrel files like this:
+  // components/index.ts
+  export { ComponentA } from './ComponentA'
+  export { ComponentB } from './ComponentB'
+
+  // This will bundle all components together, defeating lazy loading
+  ```
+
+  ```ts
+  // ✅ Instead, import directly:
+  import { ComponentA } from './components/ComponentA'
+  import { ComponentB } from './components/ComponentB'
+  ```
+
+This is important because webpack code splits on file boundaries. When using barrel files, all re-exported components get bundled into a single chunk, defeating the purpose of lazy loading.
+
+### Common Misconceptions
+
+- **next/dynamic alone isn't enough:**
+
+  ```tsx
+  // ❌ This still executes on initial load:
+  const Component = dynamic(() => import('./Component'))
+
+  function Page() {
+    return <Component /> // Component is loaded immediately
   }
-);
-```
 
-## 🛠️ How next-lazy-hydration-on-scroll Works?
+  // ✅ This works as expected:
+  function Page() {
+    const [show, setShow] = useState(false)
+    return show && <Component /> // Component loads only when show is true
+  }
+  ```
 
-It delays the hydration of pre-rendered HTML and splits js into smaller chunks that are loaded on scroll.
-Ó
+  Unless the component is conditionally rendered, `next/dynamic` will still load and hydrate it on initial page load. This package uses IntersectionObserver and a few tweaks to enable pre-rendering while deferring hydration.
 
-- 🌐 Server-Side Rendering: Initially, pages are rendered server-side with static components.
-- 📦 Dynamic Imports: Components are set up for dynamic import, reducing initial load size.
-- 🌀 Client-Side Placeholders: Non-interactive placeholders are rendered client-side initially.
-- 👀 Scroll Detection: Uses IntersectionObserver to detect when components enter the viewport.
-- ⚡ Conditional Hydration: Visible placeholders are replaced with interactive components on-the-fly.
+### Next.js Compatibility
 
-## 🚀 Performance Impact
+- Perfect for Pages Router
+- For App Router, use built-in streaming
+- Works with Next.js 12 and above
 
-Optimizing the hydration process significantly impacts Total Blocking Time (TBT) by reducing the amount of work on the main thread. This decrease in work load allows the main thread to remain more responsive, minimizing the time it spends blocked so the page becomes interactive faster.
+## Common Questions
 
-1. [Optimized Version](https://next-lazy-hydration-on-scroll.vercel.app/optimized)
-   (Component3 is lazy loaded and hydrated on scroll)
-   ![Optimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/optimized.png?raw=true 'optimized performance')
+### Q: Does it affect SEO?
 
-2. [Unoptimized Version](https://next-lazy-hydration-on-scroll.vercel.app/unoptimized)
-   (Component3 is statically imported)
-   ![Unoptimized performance](https://github.com/woywro/next-lazy-hydration-on-scroll/raw/main/unoptimized.png?raw=true 'unoptimized performance')
+A: No! Content is still pre-rendered, so search engines see everything immediately.
 
-## ⚠️ Additional Info
+### Q: What's the browser support?
 
-This package uses **next/dynamic** under the hood. Code splitting in Next.js work on a file basis. Ensure individual components you intend to load separately are in distinct files. Otherwise, dynamic import won't work.
+A: Works in all modern browsers that support IntersectionObserver (IE11+ with polyfill).
+
+---
+
+<div align="center">
+  <p>
+    <strong>Made with ❤️ for better web performance</strong>
+    <br />
+    <small>Questions? Issues? Visit the <a href="https://github.com/woywro/next-lazy-hydration-on-scroll">GitHub repository</a></small>
+  </p>
+</div>
