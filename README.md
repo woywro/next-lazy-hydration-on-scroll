@@ -85,21 +85,12 @@ By default, Next.js loads and hydrates all components at once, even those not vi
 - Delay page interactivity
 - High memory usage during hydration
 
-The diagram below shows the blocking nature of traditional hydration:
+Traditional hydration process:
 
-```mermaid
-graph TD
-    A[Load Page] --> B[Download All JS]
-    B --> C[Hydrate Everything]
-    C --> D[Page Interactive]
-    style A fill:#ddf1fd
-    style B fill:#ffd1d1
-    style C fill:#ffd1d1
-    style D fill:#d1f7c4
 ```
-
-🔴 Red boxes indicate operations that delay interactivity  
-🟢 Green box shows when users can finally interact with the page
+Load Page ──► Download All JS ──► Hydrate Everything ──► Page Interactive
+            (blocking)         (blocking)
+```
 
 ### The Solution ⚡️
 
@@ -110,21 +101,14 @@ This package breaks down the hydration process into stages:
 3. Loads and hydrates components only when needed
 4. Keeps your page fast and efficient
 
-```mermaid
-graph TD
-    A[Static HTML] --> B[Scroll Detection]
-    B --> C[Load Component JS]
-    C --> D[Hydrate Component]
-    D --> E[Interactive Component]
-
-    style A fill:#d1f7c4
-    style B fill:#fff3c4
-    style C fill:#ffd1d1
-    style D fill:#ffd1d1
-    style E fill:#d1f7c4
-
-    classDef note fill:#f9f,stroke:#333,stroke-width:2px;
 ```
+Static HTML ──► Scroll Detection ──► Load Component JS ──► Hydrate Component ──► Interactive
+   🟢              🟡                    🔴                    🔴                  🟢
+```
+
+🟢 Instant/Interactive  
+🟡 Lightweight operation  
+🔴 Heavy operation (but only for visible components)
 
 This approach provides many (some not obvious) benefits:
 
