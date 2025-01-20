@@ -226,6 +226,61 @@ A: No! Content is still pre-rendered, so search engines see everything immediate
 
 A: Works in all modern browsers that support IntersectionObserver (IE11+ with polyfill).
 
+### Q: Why are components wrapped in a `<section>` element?
+
+A: The `<section>` wrapper is crucial - without it, several problems would occur:
+
+1. No stable reference point - IntersectionObserver needs a consistent DOM element to observe. Without the section wrapper, we couldn't reliably track when components enter the viewport.
+
+2. Hydration mismatches - React would throw hydration mismatch errors because server would return full component markup while client would try to hydrate empty content. That's why we need the section with `suppressHydrationWarning` - it tells React to ignore this intentional mismatch.
+
+### Q: How does it actually work?
+
+A: The process happens in several steps:
+
+1. **Server-Side Rendering (SSR)**:
+
+   ```tsx
+   <section>
+     <Component {...props} />
+   </section>
+   ```
+
+   The first render occurs on the server, where your component is fully server-side rendered with all its props.
+
+2. **Client-Side Hydration Setup**:
+
+   ```tsx
+   <section ref={rootRef} dangerouslySetInnerHTML={{ __html: '' }} suppressHydrationWarning />
+   ```
+
+   On the client side, `hydrateClientSide` takes over. It renders an empty section with a ref and `suppressHydrationWarning`. This prop is crucial as it tells React to ignore the hydration mismatch between server and client content.
+
+3. **Hydration Control**:
+
+   - A `useEffect` hook runs after React renders your component and the rootRef is created
+   - If `rootRef.current` is not available or the IntersectionObserver fails to initialize, `isHydrated` is immediately set to true
+   - This triggers the "shouldHydrate" condition, replacing the empty section with the full component:
+     ```tsx
+     <section>
+       <Component {...props} />
+     </section>
+     ```
+   - If everything is working correctly, an IntersectionObserver is attached to `rootRef.current`
+
+4. **On-Demand Hydration**:
+   When the section intersects with the viewport:
+   - `isHydrated` is set to true
+   - The component's JS chunk is dynamically imported and executed
+   - The empty section is replaced with the fully hydrated component:
+     ```tsx
+     <section>
+       <Component {...props} />
+     </section>
+     ```
+
+This approach is similar to using dynamic imports with conditional rendering, but with a crucial difference: it works during SSR. While `next/dynamic` with `ssr: true` requires client-side triggers (like useState) to render, this package preserves SSR while optimizing client-side hydration.
+
 ---
 
 <div align="center">
