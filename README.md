@@ -254,7 +254,7 @@ A: The process happens in several steps:
    <section ref={rootRef} dangerouslySetInnerHTML={{ __html: '' }} suppressHydrationWarning />
    ```
 
-   On the client side, `hydrateClientSide` takes over. It renders an empty section with a ref and `suppressHydrationWarning`. This prop is crucial as it tells React to ignore the hydration mismatch between server and client content.
+   On the client side, `hydrateClientSide` takes over. It renders an empty section with a ref and `suppressHydrationWarning`. This prop is crucial as it tells React to ignore the hydration mismatch between server and client content (For more detailed explanation see below).
 
 3. **Hydration Control**:
 
@@ -280,6 +280,10 @@ A: The process happens in several steps:
      ```
 
 This approach is similar to using dynamic imports with conditional rendering, but with a crucial difference: it works during SSR. While `next/dynamic` with `ssr: true` requires client-side triggers (like useState) to render, this package preserves SSR while optimizing client-side hydration.
+
+### Q: Why is dangerouslySetInnerHTML used?
+
+When you use dangerouslySetHTML as an empty string in a div (or any dom element), it stops react from walking down the tree. We can use dangerouslySetHTML to signal to react to stop hydrating this subtree.
 
 ---
 
