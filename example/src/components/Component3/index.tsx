@@ -8,11 +8,5 @@ const LazyComponent = dynamic(() => Promise.resolve(BaseComponent), {
 })
 
 export default function Component3() {
-  return (
-    <BaseComponent
-      color="text-yellow-400"
-      title="Prerendered + Executed on scroll"
-      description="This component is pre-rendered on the server and its JavaScript is only loaded when scrolled into view. Unlike Component2's immediate loading after page load, this truly loads on-demand using intersection observer."
-    />
-  )
+  return <BaseComponent title="lazyHydrate Import" />
 }
