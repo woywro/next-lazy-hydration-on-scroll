@@ -25,17 +25,32 @@ import { lazyHydrate } from 'next-lazy-hydration-on-scroll'
 
 const LazyComponent = lazyHydrate(() => import('./components/HeavyComponent'), {
   LoadingComponent: () => <div>Loading...</div>, // Optional
+  wrapperElement: 'div', // Optional, defaults to 'section'
 })
 
 export default function Page() {
   return (
     <div>
       <header>Always hydrated</header>
-      <LazyComponent /> {/* Hydrates when scrolled into view */}
+      <LazyComponent wrapperProps={{ className: 'my-wrapper', id: 'lazy-component' }} /> {/* Hydrates when scrolled into view */}
     </div>
   )
 }
 ```
+
+## Options
+
+| Option             | Type                          | Default       | Description                                             |
+| ------------------ | ----------------------------- | ------------- | ------------------------------------------------------- |
+| `rootMargin`       | `string`                      | `'0px 250px'` | Margin around the root element for IntersectionObserver |
+| `LoadingComponent` | `ComponentType`               | `undefined`   | Component to show while loading                         |
+| `wrapperElement`   | `keyof JSX.IntrinsicElements` | `'section'`   | HTML element to wrap the component                      |
+
+## Component Props
+
+| Prop           | Type                  | Description                          |
+| -------------- | --------------------- | ------------------------------------ |
+| `wrapperProps` | `Record<string, any>` | Props to pass to the wrapper element |
 
 ## How It Works
 
@@ -67,7 +82,7 @@ Works in all modern browsers supporting IntersectionObserver (IE11+ with polyfil
 ## Notes
 
 - SEO friendly - content is pre-rendered
-- Components are wrapped in `<section>` elements for stable viewport detection
+- Components are wrapped in customizable elements (default: `<section>`) for stable viewport detection
 - Works with Next.js 12 and above
 
 ## FAQ
@@ -80,9 +95,13 @@ A: No - all content is pre-rendered and visible to search engines.
 
 A: All modern browsers (IE11+ with polyfill).
 
-### Q: Why are components wrapped in a `<section>` element?
+### Q: Why are components wrapped in an element?
 
 A: For two reasons: to provide a stable element for IntersectionObserver tracking, and to handle hydration mismatches with `suppressHydrationWarning`.
+
+### Q: Can I customize the wrapper element?
+
+A: Yes - use the `wrapperElement` option to specify any valid HTML element (e.g., 'div', 'article') and pass props to it using the `wrapperProps` prop.
 
 ### Q: Why is dangerouslySetInnerHTML used?
 
