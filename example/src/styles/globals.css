@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --violet-500: rgb(139, 92, 246);
-  --fuchsia-500: rgb(217, 70, 239);
-  /* Add any other colors you need */
-}
