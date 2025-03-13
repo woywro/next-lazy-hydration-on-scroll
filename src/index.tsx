@@ -4,20 +4,26 @@ import React, { ComponentType, FC, useEffect, useRef, useState } from 'react'
 type LazyHydrateHydrateOptions = {
   rootMargin?: string
   LoadingComponent?: ComponentType
+  wrapperElement?: keyof JSX.IntrinsicElements
 }
 
 type HydrateOptions = {
   rootMargin: string
   LoadingComponent?: ComponentType
+  wrapperElement?: keyof JSX.IntrinsicElements
 }
 
 type ComponentProps = {
   [key: string]: unknown
+  wrapperProps?: Record<string, any>
 }
 
-const hydrateClientSide = <P extends ComponentProps>(Component: ComponentType<P>, options: HydrateOptions): FC<P> => {
-  const { rootMargin } = options
-  const Hydration: FC<P> = ({ ...props }) => {
+const hydrate = <P extends ComponentProps>(
+  Component: ComponentType<Omit<P, 'wrapperProps'>>,
+  options: HydrateOptions,
+): FC<P> => {
+  const { rootMargin, wrapperElement = 'section' } = options
+  const Hydration: FC<P> = ({ wrapperProps = {}, ...props }) => {
     const rootRef = useRef<HTMLDivElement>(null)
     const [isHydrated, setIsHydrated] = useState(false)
 
@@ -49,23 +55,33 @@ const hydrateClientSide = <P extends ComponentProps>(Component: ComponentType<P>
       return
     }, [isHydrated])
 
+    const WrapperElement = wrapperElement as unknown as FC<React.HTMLProps<HTMLElement>>
+
     if (isHydrated) {
       return (
-        <section>
-          <Component {...props} />
-        </section>
+        <WrapperElement {...wrapperProps}>
+          <Component {...(props as Omit<P, 'wrapperProps'>)} />
+        </WrapperElement>
       )
     }
-    return <section ref={rootRef} dangerouslySetInnerHTML={{ __html: '' }} suppressHydrationWarning />
+    return (
+      <WrapperElement
+        ref={rootRef}
+        {...wrapperProps}
+        dangerouslySetInnerHTML={{ __html: '' }}
+        suppressHydrationWarning
+      />
+    )
   }
   return Hydration
 }
 
 const lazyHydrate = <P extends ComponentProps>(
-  component: () => Promise<any>,
+  component: () => Promise<{ default: ComponentType<Omit<P, 'wrapperProps'>> }>,
   options?: LazyHydrateHydrateOptions,
 ): FC<P> => {
   const LoadingComponent = options?.LoadingComponent ?? undefined
+  const wrapperElement = options?.wrapperElement ?? 'section'
 
   const Component = dynamic(component, {
     ssr: true,
@@ -74,13 +90,19 @@ const lazyHydrate = <P extends ComponentProps>(
     }),
   })
   const isServer = typeof window === 'undefined'
+
+  const WrapperElement = wrapperElement as unknown as FC<React.HTMLProps<HTMLElement>>
+
   return isServer
-    ? ({ ...props }) => (
-        <section>
-          <Component {...props} />
-        </section>
+    ? ({ wrapperProps = {}, ...props }) => (
+        <WrapperElement {...wrapperProps}>
+          <Component {...(props as Omit<P, 'wrapperProps'>)} />
+        </WrapperElement>
       )
-    : hydrateClientSide(Component, { rootMargin: options?.rootMargin || '0px 250px' })
+    : hydrate(Component, {
+        rootMargin: options?.rootMargin || '0px 250px',
+        wrapperElement,
+      })
 }
 
 export { lazyHydrate }
