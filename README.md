@@ -1,21 +1,21 @@
 # next-lazy-hydration-on-scroll
 
-⚠️ **Pages Directory Only** - For Next.js App Directory better use [built-in streaming](https://nextjs.org/learn/dashboard-app/streaming).
+Hydrate Next.js components when they scroll into view instead of all at once on load.
 
-Optimize Next.js app performance by lazy loading and hydrating components when they enter the viewport.
+The HTML is still server-rendered, so the page looks and indexes the same. Only the JavaScript is deferred — which cuts hydration work off the critical path and lowers TBT.
 
-- ⚡️ Lower Total Blocking Time (TBT)
-- 📦 Smaller Bundle Size
-- 🚀 Improved Performance
+> **Pages Router only.** On the App Router, use Server Components and [streaming](https://nextjs.org/docs/app/guides/streaming) instead. Requires React 18+.
 
-## Installation
+## Still relevant in 2026
+
+Plenty of production apps are still on the Pages Router. It ships in Next.js 16, is not deprecated, and has [its own actively maintained docs](https://nextjs.org/docs/pages/getting-started).
+
+Migration is also [incremental by design](https://nextjs.org/docs/app/guides/migrating/app-router-migration) — `app/` and `pages/` run side by side, page by page — so codebases sit half-migrated for a long time, and the `pages/` half never gets Server Components. Those routes hydrate the whole tree on every load. That's what this fixes, without a rewrite.
+
+## Install
 
 ```bash
 npm install next-lazy-hydration-on-scroll
-# or
-yarn add next-lazy-hydration-on-scroll
-# or
-pnpm add next-lazy-hydration-on-scroll
 ```
 
 ## Usage
@@ -23,88 +23,65 @@ pnpm add next-lazy-hydration-on-scroll
 ```tsx
 import { lazyHydrate } from 'next-lazy-hydration-on-scroll'
 
-const LazyComponent = lazyHydrate(() => import('./components/HeavyComponent'), {
-  LoadingComponent: () => <div>Loading...</div>, // Optional
-  wrapperElement: 'div', // Optional, defaults to 'section'
-})
+const HeavyComponent = lazyHydrate(() => import('./components/HeavyComponent'))
 
 export default function Page() {
   return (
     <div>
-      <header>Always hydrated</header>
-      <LazyComponent wrapperProps={{ className: 'my-wrapper', id: 'lazy-component' }} /> {/* Hydrates when scrolled into view */}
+      <header>Hydrated immediately</header>
+      <HeavyComponent /> {/* hydrates on scroll */}
     </div>
   )
 }
 ```
 
-## Options
-
-| Option             | Type                          | Default       | Description                                             |
-| ------------------ | ----------------------------- | ------------- | ------------------------------------------------------- |
-| `rootMargin`       | `string`                      | `'0px 250px'` | Margin around the root element for IntersectionObserver |
-| `LoadingComponent` | `ComponentType`               | `undefined`   | Component to show while loading                         |
-| `wrapperElement`   | `keyof JSX.IntrinsicElements` | `'section'`   | HTML element to wrap the component                      |
-
-## Component Props
-
-| Prop           | Type                  | Description                          |
-| -------------- | --------------------- | ------------------------------------ |
-| `wrapperProps` | `Record<string, any>` | Props to pass to the wrapper element |
-
-## How It Works
-
-1. Server renders full HTML content
-2. Components remain static until scrolled into view
-3. When component enters viewport:
-   - JavaScript is loaded
-   - Component is hydrated
-   - Interactivity is enabled
-
-## Implementation Requirements
-
-- Keep components in separate files
-- Avoid barrel files (index.ts that re-exports components)
-- Import components directly:
+With options:
 
 ```tsx
-// ✅ Correct
-import { ComponentA } from './components/ComponentA'
-
-// ❌ Avoid
-// components/index.ts with re-exports
+const HeavyComponent = lazyHydrate(() => import('./components/HeavyComponent'), {
+  rootMargin: '0px 400px',
+  wrapperElement: 'div',
+  LoadingComponent: () => <div>Loading…</div>,
+})
 ```
 
-## Browser Support
+## Options
 
-Works in all modern browsers supporting IntersectionObserver (IE11+ with polyfill).
+| Option             | Type                                | Default       | Description                                            |
+| ------------------ | ----------------------------------- | ------------- | ------------------------------------------------------ |
+| `rootMargin`       | `string`                            | `'0px 250px'` | How early to hydrate, relative to the viewport         |
+| `wrapperElement`   | `keyof React.JSX.IntrinsicElements` | `'section'`   | Tag used for the wrapper element                       |
+| `LoadingComponent` | `ComponentType`                     | `undefined`   | Shown while the chunk loads                            |
 
-## Notes
+Props are forwarded to your component, except `wrapperProps`, which is spread onto the wrapper:
 
-- SEO friendly - content is pre-rendered
-- Components are wrapped in customizable elements (default: `<section>`) for stable viewport detection
-- Works with Next.js 12 and above
+```tsx
+<HeavyComponent title="forwarded" wrapperProps={{ className: 'wrapper' }} />
+```
 
-## FAQ
+## Why not `next/dynamic`
 
-### Q: Does it affect SEO?
+`next/dynamic` splits the chunk, but the component is still part of the tree, so its JavaScript is needed to hydrate the page. Using `ssr: false` avoids that but drops the server-rendered HTML.
 
-A: No - all content is pre-rendered and visible to search engines.
+`lazyHydrate` keeps the HTML *and* keeps the chunk off the initial path.
 
-### Q: What's the browser support?
+## Gotchas
 
-A: All modern browsers (IE11+ with polyfill).
+- **Give the component its own file.** Barrel files (`index.ts` re-exports) pull siblings into the same chunk and defeat the split.
+- **The wrapper is a real element.** Parent flex/grid rules see it, not your component. Adjust with `wrapperElement` / `wrapperProps`, or `display: contents`.
+- **Nothing runs before hydration.** No effects, no event handlers — so no analytics impressions inside a lazy component.
+- **Skip it above the fold.** Visible components hydrate right away anyway.
 
-### Q: Why are components wrapped in an element?
+## How it works
 
-A: For two reasons: to provide a stable element for IntersectionObserver tracking, and to handle hydration mismatches with `suppressHydrationWarning`.
+The wrapper renders empty on the client with `dangerouslySetInnerHTML` and `suppressHydrationWarning`, so React leaves the server HTML alone and never descends into the subtree. An `IntersectionObserver` then loads and hydrates the component as it nears the viewport. Without `IntersectionObserver`, it hydrates immediately.
 
-### Q: Can I customize the wrapper element?
+## Further reading
 
-A: Yes - use the `wrapperElement` option to specify any valid HTML element (e.g., 'div', 'article') and pass props to it using the `wrapperProps` prop.
+- [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37) — why hydration is one blocking pass
+- [Rendering on the Web](https://web.dev/articles/rendering-on-the-web) — hydration's cost to TBT and INP
+- [Islands Architecture](https://jasonformat.com/islands-architecture/) — the broader pattern
 
-### Q: Why is dangerouslySetInnerHTML used?
+## License
 
-A: It prevents React from hydrating down the component tree, allowing to preserve server-rendered content while controlling when hydration occurs.
-
-[View Demo](https://next-lazy-hydration-on-scroll.wrotek.dev/) | [GitHub Repository](https://github.com/woywro/next-lazy-hydration-on-scroll)
+MIT
