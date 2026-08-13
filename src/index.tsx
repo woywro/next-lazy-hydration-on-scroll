@@ -1,16 +1,17 @@
 import dynamic from 'next/dynamic'
 import React, { ComponentType, FC, useEffect, useRef, useState } from 'react'
 
+type WrapperTag = keyof React.JSX.IntrinsicElements
+
 type LazyHydrateHydrateOptions = {
   rootMargin?: string
   LoadingComponent?: ComponentType
-  wrapperElement?: keyof JSX.IntrinsicElements
+  wrapperElement?: WrapperTag
 }
 
 type HydrateOptions = {
   rootMargin: string
-  LoadingComponent?: ComponentType
-  wrapperElement?: keyof JSX.IntrinsicElements
+  wrapperElement?: WrapperTag
 }
 
 type ComponentProps = {
@@ -24,7 +25,7 @@ const hydrate = <P extends ComponentProps>(
 ): FC<P> => {
   const { rootMargin, wrapperElement = 'section' } = options
   const Hydration: FC<P> = ({ wrapperProps = {}, ...props }) => {
-    const rootRef = useRef<HTMLDivElement>(null)
+    const rootRef = useRef<HTMLElement>(null)
     const [isHydrated, setIsHydrated] = useState(false)
 
     const initIntersectionObserver = (rootMargin: string): (() => void) | undefined => {
@@ -66,8 +67,8 @@ const hydrate = <P extends ComponentProps>(
     }
     return (
       <WrapperElement
-        ref={rootRef}
         {...wrapperProps}
+        ref={rootRef}
         dangerouslySetInnerHTML={{ __html: '' }}
         suppressHydrationWarning
       />
