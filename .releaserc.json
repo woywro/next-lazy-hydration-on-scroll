@@ -13,7 +13,12 @@
       }
     ],
     "@semantic-release/npm",
-    "@semantic-release/github",
+    [
+      "@semantic-release/github",
+      {
+        "labels": false
+      }
+    ],
     [
       "@semantic-release/git",
       {
